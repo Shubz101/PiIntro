@@ -1,0 +1,69 @@
+<html>
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .dot {
+            width: 1rem;
+            height: 1rem;
+            border-radius: 50%;
+            margin: 0 0.25rem;
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-white">
+    <div class="text-center">
+        <div id="colorBox" class="w-64 h-96 bg-blue-100"></div>
+        <div class="flex justify-center items-center mt-4 space-x-2">
+            <span id="dot1" class="dot bg-blue-500"></span>
+            <span id="dot2" class="dot bg-gray-300"></span>
+            <span id="dot3" class="dot bg-gray-300"></span>
+            <span id="dot4" class="dot bg-gray-300"></span>
+        </div>
+        <div class="flex justify-between mt-4">
+            <button id="prevButton" class="text-blue-500 text-lg">Previous</button>
+            <button id="nextButton" class="text-blue-500 text-lg">Next</button>
+        </div>
+    </div>
+
+    <script>
+        const colors = ['bg-blue-100', 'bg-red-100', 'bg-green-100', 'bg-yellow-100'];
+        const dots = ['dot1', 'dot2', 'dot3', 'dot4'];
+        let currentIndex = 0;
+
+        document.getElementById('nextButton').addEventListener('click', () => {
+            if (currentIndex < colors.length - 1) {
+                currentIndex++;
+                updateSlide();
+            } else {
+                window.location.href = 'page.tsx';
+            }
+        });
+
+        document.getElementById('prevButton').addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateSlide();
+            }
+        });
+
+        function updateSlide() {
+            // Update color box
+            const colorBox = document.getElementById('colorBox');
+            colorBox.className = `w-64 h-96 ${colors[currentIndex]}`;
+
+            // Update dots
+            dots.forEach((dot, index) => {
+                document.getElementById(dot).className = `dot ${index === currentIndex ? 'bg-blue-500' : 'bg-gray-300'}`;
+            });
+
+            // Update button text
+            const nextButton = document.getElementById('nextButton');
+            if (currentIndex === colors.length - 1) {
+                nextButton.textContent = 'Start';
+            } else {
+                nextButton.textContent = 'Next';
+            }
+        }
+    </script>
+</body>
+</html>
