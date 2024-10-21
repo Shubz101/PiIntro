@@ -2,6 +2,7 @@
     const slides = document.querySelectorAll('#slides > div');
     const dots = [document.getElementById('dot1'), document.getElementById('dot2'), document.getElementById('dot3'), document.getElementById('dot4')];
     let currentSlide = 0;
+    let startX;
 
     function showSlide(index) {
         slides.forEach((slide, i) => {
@@ -30,6 +31,28 @@
         currentSlide = (currentSlide - 1 + slides.length) % slides.length;
         showSlide(currentSlide);
     });
+
+    // Touch event listeners
+    const touchStartHandler = (event) => {
+        startX = event.touches[0].clientX;
+    };
+
+    const touchEndHandler = (event) => {
+        const endX = event.changedTouches[0].clientX;
+        if (startX > endX + 50) {
+            // Swipe left
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        } else if (startX < endX - 50) {
+            // Swipe right
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+    };
+
+    // Attach touch event listeners to the slides container
+    document.getElementById('slides').addEventListener('touchstart', touchStartHandler);
+    document.getElementById('slides').addEventListener('touchend', touchEndHandler);
 
     showSlide(currentSlide);
 </script>
